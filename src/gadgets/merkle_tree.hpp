@@ -68,7 +68,7 @@ const VariableArrayT merkle_tree_IVs (ProtoboardT &in_pb);
 
 
 template<typename HashT>
-class markle_path_compute : public GadgetT
+class merkle_path_compute : public GadgetT
 {
 public:
     const size_t m_depth;
@@ -79,7 +79,7 @@ public:
     std::vector<merkle_path_selector> m_selectors;
     std::vector<HashT> m_hashers;
 
-    markle_path_compute(
+    merkle_path_compute(
         ProtoboardT &in_pb,
         const size_t in_depth,
         const VariableArrayT& in_address_bits,
@@ -155,7 +155,7 @@ public:
 * Merkle path authenticator, verifies computed root matches expected result
 */
 template<typename HashT>
-class merkle_path_authenticator : public markle_path_compute<HashT>
+class merkle_path_authenticator : public merkle_path_compute<HashT>
 {
 public:
     const VariableT m_expected_root;
@@ -170,7 +170,7 @@ public:
         const VariableArrayT in_path,
         const std::string &in_annotation_prefix
     ) :
-        markle_path_compute<HashT>::markle_path_compute(in_pb, in_depth, in_address_bits, in_IVs, in_leaf, in_path, in_annotation_prefix),
+        merkle_path_compute<HashT>::merkle_path_compute(in_pb, in_depth, in_address_bits, in_IVs, in_leaf, in_path, in_annotation_prefix),
         m_expected_root(in_expected_root)
     { }
 
@@ -181,7 +181,7 @@ public:
 
     void generate_r1cs_constraints()
     {
-        markle_path_compute<HashT>::generate_r1cs_constraints();
+        merkle_path_compute<HashT>::generate_r1cs_constraints();
 
         // Ensure root matches calculated path hash
         this->pb.add_r1cs_constraint(
