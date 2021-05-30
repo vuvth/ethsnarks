@@ -260,7 +260,26 @@ const VariableArrayT flatten( const std::vector<VariableArrayT> &in_scalars )
     return result;
 }
 
+const VariableArrayT flatten_reverse( const std::vector<VariableArrayT> &in_scalars )
+{
+    size_t total_sz = 0;
+    for( const auto& scalar : in_scalars )
+        total_sz += scalar.size();
 
+    VariableArrayT result;
+    result.resize(total_sz);
+
+    size_t offset = 0;
+    for( const auto& scalar : in_scalars )
+    {
+        for( int i = scalar.size() - 1; i >= 0; i--)
+        {
+            result[offset++].index = scalar[i].index;
+        }
+    }
+
+    return result;
+}
 
 int char2int( const char input )
 {
